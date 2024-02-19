@@ -29,3 +29,9 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## EXTRA SARA GONZÁLEZ
 
 Para empezar, lanzar `npm install` en la carpeta del proyecto. Posteriormente abrir dos terminales del proyecto: en una ejecutar `ng serve` para levantar la aplicación web y en otra ejecutar `json-server --watch .\src\app\mock\getDataHero.json` para poder trabajar con nuestros datos mockeados a modo de API. Navegar a `http://localhost:4200/` para visualizar la aplicación y a `http://localhost:3000/` para ver los detalles del json-server.
+
+En la carpeta `src/app/mock` tenemos los siguientes archivos:
+
+[getDataHero.json] --> archivo que usamos para trabajar con json-server y poder hacer llamadas http.
+[getDataHeroOriginal.json] --> copia con los datos del archivo anterior para tener siempre una plantilla con ejemplos (ya que los datos de getDataHero.json se van modificando según las acciones que hagamos).
+[mockHeroes.ts] --> héroes mockeados para probar test del servicio
