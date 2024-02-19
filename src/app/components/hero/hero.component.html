@@ -1,0 +1,108 @@
+
+<div class="container">
+  <ng-container *ngIf="!selected">
+    <!-- SEARCH HERO -->
+    <div class="button-actions">
+      <form>
+        <mat-form-field>
+          <mat-label>Search by name</mat-label>
+          <input type="text" matInput [formControl]="searchValue" placeholder="Search">
+          @if (searchValue) {
+            <button matSuffix mat-icon-button aria-label="Clear" (click)="clearInputSearch()">
+              <mat-icon>close</mat-icon>
+            </button>
+          }
+        </mat-form-field>
+        <button mat-raised-button (click)="searchByName()">Search value</button>
+      </form>
+    </div>
+
+    <h2 class="align">Listado héroes</h2>
+    <br>
+    <div class="add-edit-button">
+      <button mat-raised-button (click)="select('new')">Add hero</button><br>
+    </div>
+    <br><br>
+
+    <!-- TABLE -->
+    <div *ngIf="!loading" class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource">
+          <!-- ID Column -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> ID. </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+          </ng-container>
+      
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+      
+          <!-- Age Column -->
+          <ng-container matColumnDef="age">
+            <th mat-header-cell *matHeaderCellDef> Age </th>
+            <td mat-cell *matCellDef="let element"> {{element.age}} </td>
+          </ng-container>
+
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef class="actions-column"> Actions </th>
+            <td mat-cell *matCellDef="let element" class="actions-column button-actions actions">
+              <button mat-fab matTooltip="Edit" color="primary" aria-label="Edit icon" (click)="select(element)">
+                <mat-icon>mode_edit</mat-icon>
+              </button>
+              <button mat-fab matTooltip="Delete" color="warn" aria-label="Delete icon" (click)="openDialog(element)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      
+        <mat-paginator
+          [pageSizeOptions]="[5, 10, 20]"
+          [pageSize]="10"
+          showFirstLastButtons
+          aria-label="Select page of heroes">
+        </mat-paginator>
+    </div>
+    <mat-spinner *ngIf="loading"></mat-spinner>
+  </ng-container>
+  <ng-container *ngIf="selected">
+    <h2>{{title}}</h2>
+    <div *ngIf="selected !== 'new'">ID: {{selected.id}}</div>
+    <br>
+    <div class="mat-elevation-z8 content-add-edit">
+      <form [formGroup]="heroForm" (ngSubmit)="editHero()">
+        <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput class="uppercase" placeholder="Enter a name" formControlName="name" maxlength="15">
+        </mat-form-field>
+        <div *ngIf="heroForm.get('name')?.invalid && (heroForm.get('name')?.dirty || heroForm.get('name')?.touched)"class="alert">
+            <div *ngIf="heroForm.get('name')?.errors?.['required']">Name is required.</div>
+            <div *ngIf="heroForm.get('name')?.errors?.['minlength'] || heroForm.get('name')?.errors?.['maxlength']">
+                The name must be between 3 and 15 characters.
+            </div>
+        </div>
+        <br>
+        <mat-form-field>
+          <mat-label>Age</mat-label>
+          <input matInput placeholder="Enter an age" formControlName="age" maxlength="3">
+        </mat-form-field>
+        <div *ngIf="heroForm.get('age')?.invalid && (heroForm.get('age')?.dirty || heroForm.get('age')?.touched)"class="alert">
+            <div *ngIf="heroForm.get('age')?.errors?.['required']">Age is required.</div>
+            <div *ngIf="heroForm.get('age')?.errors?.['minlength'] || heroForm.get('age')?.errors?.['maxlength']">
+                The age must be 2 or 3 characters.
+            </div>
+        </div>
+        <br>
+        <div class="button-actions add-edit-button">
+          <button mat-raised-button type="submit" [disabled]="!heroForm.valid">Save</button>
+          <button mat-raised-button (click)="cancel()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </ng-container>
+</div>

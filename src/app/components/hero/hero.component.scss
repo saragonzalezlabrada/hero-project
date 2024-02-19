@@ -1,0 +1,46 @@
+.container {
+    margin: 0px 25px;
+}
+
+h2.align {
+    float: left;
+}
+
+.button-actions {
+    button {
+        margin-left: 8px;
+    }
+}
+
+.add-edit-button {
+    button {
+        float: right;
+    }
+}
+
+.actions-column {
+    text-align: right !important;
+}
+
+.actions button {
+    width: 40px;
+    height: 40px;
+    
+    mat-icon {
+        font-size: 20px !important;
+    }
+}
+
+.content-add-edit {
+    display: inline-block;
+    padding: 25px;
+}
+
+mat-spinner {
+    left: calc(50%);
+    margin-left: -50px;
+}
+
+.uppercase {
+    text-transform: uppercase !important;
+}
