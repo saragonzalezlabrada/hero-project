@@ -63,25 +63,13 @@ export class HeroComponent {
     this.getHeroes();
   }
 
-  // GET HEROES FILTRANDO SERVICIO (TEXTO EXACTO AL VALOR)
-  // getHeroes(): void {
-  //   this.heroService.getHeroes(this.filter).subscribe((response: any) => {
-  //     this.heroes = response;
-  //     this.dataSource = new MatTableDataSource<Hero>(this.heroes);
-  //     this.dataSource.paginator = this.paginator;
-  //   });
-  // }
-
-  // GET HEROES FILTRANDO CON INCLUDE (TEXTO INCLUYE VALOR)
   getHeroes(): void {
-    this.loading = true;
     this.heroService.getHeroes().subscribe((response: any) => {
       if (this.filter) {
         this.heroes = response.filter((hero: Hero) => hero.name.includes(this.filter));
       } else {
         this.heroes = response;
       }
-      this.loading = false;
       this.dataSource = new MatTableDataSource<Hero>(this.heroes);
       this.dataSource.paginator = this.paginator;
     });
@@ -116,14 +104,14 @@ export class HeroComponent {
         'name': this.heroForm.value.name,
         'age': this.heroForm.value.age
       };
-      this.heroService.createHero(data).subscribe((response) => {
+      this.heroService.createHero(data).subscribe(() => {
         this.applyActions();
         this.loading = false;
       });
     } else {
       // EDIT HERO
       if (this.heroForm.valid) {
-        this.heroService.editHero(this.selected.id, this.heroForm.value).subscribe((response) => {
+        this.heroService.editHero(this.selected.id, this.heroForm.value).subscribe(() => {
           this.applyActions();
           this.loading = false;
         });
@@ -151,8 +139,10 @@ export class HeroComponent {
   }
 
   deleteHero(element: Hero): void {
+    this.loading = true;
     this.heroService.deleteHero(element.id).subscribe(() => {
-      this.getHeroes();
+      this.applyActions();
+      this.loading = false;
     });
   }
 

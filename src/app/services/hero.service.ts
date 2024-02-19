@@ -13,15 +13,6 @@ export class HeroService {
     private http: HttpClient
   ) { }
 
-  // GET HEROES FILTRANDO SERVICIO (TEXTO EXACTO AL VALOR)
-  // getHeroes(filter: string): Observable<object> {
-  //   if (!filter) {
-  //     return this.http.get(`${this.environment}`);
-  //   } else {
-  //     return this.http.get(`${this.environment}/?name=${filter}`);
-  //   }
-  // }
-
   getHeroes(): Observable<any> {
     return this.http.get(`${this.environment}`);
   }
